@@ -1,8 +1,11 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "array-type": false,
-    "arrow-parens": false,
+    "array-type": [
+      true,
+      "array"
+    ],
+    "arrow-parens": true,
     "deprecation": {
       "severity": "warning"
     },
@@ -31,7 +34,7 @@
       true,
       140
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
       {
@@ -43,7 +46,7 @@
         ]
       }
     ],
-    "no-consecutive-blank-lines": false,
+    "no-consecutive-blank-lines": true,
     "no-console": [
       true,
       "debug",
@@ -52,7 +55,8 @@
       "timeEnd",
       "trace"
     ],
-    "no-empty": false,
+    "no-empty": true,
+    "no-magic-numbers": true,
     "no-inferrable-types": [
       true,
       "ignore-params"
@@ -60,18 +64,25 @@
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
-    "no-var-requires": false,
+    "no-var-requires": true,
+    "no-var-keyword": true,
     "object-literal-key-quotes": [
       true,
       "as-needed"
     ],
-    "object-literal-sort-keys": false,
-    "ordered-imports": false,
+    "object-literal-sort-keys": true,
+    "ordered-imports": true,
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
-    "trailing-comma": false,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,
