@@ -9,7 +9,7 @@ import {SocketService} from "../../services/socket.service";
   templateUrl: "./add-view.component.html",
 })
 export class AddViewComponent {
-  public static readonly URL_REGEXP = /^[A-Za-z][A-Za-z\d.+-]*:\/*(?:\w+(?::\w+)?@)?[^\s/]+(?::\d+)?(?:\/[\w#!:.?+=&%@\-/]*)?$/;
+  public static readonly URL_REGEXP = /^(http:\/\/|https:\/\/)[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.?[a-z]{0,5}(:[0-9]{1,5})?(\/.*)?$/;
   public url = new FormControl("", [Validators.required, Validators.pattern(AddViewComponent.URL_REGEXP)]);
   public authType = new FormControl("", [Validators.required]);
   public token = new FormControl("", [Validators.required]);
@@ -29,7 +29,7 @@ export class AddViewComponent {
 
   public getError(formControl) {
     return formControl.hasError("required") ? "You must enter a value" :
-      formControl.hasError("pattern") ? "Not a valid URL" :
+      formControl.hasError("pattern") ? "Not a valid URL (remember your http(s)://)" :
         "";
   }
 
