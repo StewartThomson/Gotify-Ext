@@ -1,22 +1,49 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatListModule} from "@angular/material/list";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
-import {ServerCollectionService} from "./server-collection.service";
-import {ServerService} from "./server.service";
+import { AddViewComponent } from "./components/add-view/add-view.component";
+import { MessageViewComponent } from "./components/message-view/message-view.component";
+import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {MatCardModule} from "@angular/material/card";
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
+    MessageViewComponent,
+    AddViewComponent,
+    DateAgoPipe,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCardModule,
   ],
-  providers: [
-    ServerService, ServerCollectionService,
-  ],
+  providers: [],
 })
 export class AppModule { }

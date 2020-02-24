@@ -1,14 +1,25 @@
-import {ServerCollectionService} from "./app/server-collection.service";
+import {GotifySocket} from "./app/classes/gotify-socket";
+import {SocketService} from "./app/services/socket.service";
 
+console.log("hello");
 chrome.runtime.onInstalled.addListener(() => {
-  const ws = new ServerCollectionService();
+  const socket = new SocketService();
 
-  const server = ws.AddServer("ws://localhost:80");
-  server.Connect("CMr-2PYPBsbjJIZ");
+  socket.loadConnections().then(() => {
 
-  let unreadCount = 0;
-  server.GetConnection().subscribe((msg) => {
-    unreadCount++;
-    chrome.browserAction.setBadgeText({text: unreadCount.toString()});
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      const connections = changes.connections.newValue;
+      for (const connectionInfo of connections) {
+
+      }
+    });
   });
+
+  // socket.open("ws://localhost:81", "Cl_ZB0SfPi2IMQ8");
+  //
+  // let unreadCount = 0;
+  // socket.$.subscribe((gotify) => gotify.GetConnection().subscribe((msg) => {
+  //   unreadCount++;
+  //   chrome.browserAction.setBadgeText({text: unreadCount.toString()});
+  // }));
 });

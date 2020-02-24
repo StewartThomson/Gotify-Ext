@@ -11,6 +11,7 @@
     ]
   },
   "permissions": [
+    "http://*/",
     "storage"
   ],
   "browser_action": {

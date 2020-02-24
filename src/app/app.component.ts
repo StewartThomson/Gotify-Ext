@@ -1,5 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {ServerCollectionService} from "./server-collection.service";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {MatSidenav} from "@angular/material/sidenav";
+import {Router} from "@angular/router";
+import {GotifySocket} from "./classes/gotify-socket";
+import {SidenavService} from "./services/sidenav.service";
+import {SocketService} from "./services/socket.service";
 
 @Component({
   selector: "app-root",
@@ -8,11 +12,29 @@ import {ServerCollectionService} from "./server-collection.service";
 })
 export class AppComponent implements OnInit {
   public title = "gotify-ext";
+  public currentURL = "";
+  @ViewChild("sidenav", {static: false}) public sidenav: MatSidenav;
 
-  constructor(private server: ServerCollectionService) {}
+  constructor(public sockets: SocketService, private sidenavService: SidenavService, private router: Router) {
+    this.sockets.loadConnections().then(() => {
+      if (this.sockets.getNumConnections() > 0) {
+        this.router.navigate(["/server"]);
+      }
+    });
+
+    this.sockets.sockets.subscribe((gotifySockets: GotifySocket[]) => {
+      const connections = [];
+      for (const socket of gotifySockets) {
+        connections.push({
+          token: socket.GetToken(),
+          url: socket.GetURL(),
+        });
+      }
+      chrome.storage.sync.set({connections});
+    });
+  }
 
   public ngOnInit() {
-    const server = this.server.AddServer("ws://localhost:80");
-    server.Connect( "CMr-2PYPBsbjJIZ");
+    this.sidenavService.setSidenav(this.sidenav);
   }
 }

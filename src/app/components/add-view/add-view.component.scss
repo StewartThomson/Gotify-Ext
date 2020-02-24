@@ -1,0 +1,14 @@
+#add-container {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". .";
+  grid-gap: 10px;
+  height: 100%;
+}
+
+#btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

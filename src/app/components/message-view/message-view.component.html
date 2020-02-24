@@ -1,0 +1,18 @@
+<div *ngIf="messages.length === 0; else messageList">
+  <h1>No messages</h1>
+</div>
+<ng-template #messageList>
+  <mat-card *ngFor="let message of messages">
+    <mat-card-title-group>
+      <mat-card-title>
+        {{message.title}} - <span>{{message.date | dateAgo}}</span>
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="url === 'All'">
+        {{message.url}}
+      </mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-content>
+      {{message.message}}
+    </mat-card-content>
+  </mat-card>
+</ng-template>

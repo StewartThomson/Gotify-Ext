@@ -1,0 +1,50 @@
+<div id="add-container">
+  <div id="form-container">
+    <mat-form-field appearance="fill">
+      <mat-label>URL</mat-label>
+      <input matInput [formControl]="url" type="url" required>
+      <mat-error *ngIf="url.invalid">{{getError(url)}}</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Token or Login</mat-label>
+      <mat-select [formControl]="authType" required>
+        <mat-option value="token">Token</mat-option>
+        <mat-option value="login">Login</mat-option>
+      </mat-select>
+      <mat-error *ngIf="authType.invalid">{{getError(authType)}}</mat-error>
+      <mat-hint *ngIf="authType.value === 'login'">Username & Password won't be stored, only used to generate a token</mat-hint>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field *ngIf="authType.value === 'token'; else loginFields">
+      <mat-label>Token</mat-label>
+      <input matInput [formControl]="token" type="text" required>
+      <mat-error *ngIf="token.invalid">{{getError(token)}}</mat-error>
+    </mat-form-field>
+    <ng-template #loginFields>
+      <ng-container *ngIf="authType.value === 'login'">
+        <mat-form-field>
+          <mat-label>App Name</mat-label>
+          <input matInput [formControl]="appName" type="text" required>
+          <mat-error *ngIf="appName.invalid">{{getError(appName)}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput [formControl]="userName" type="text" required>
+          <mat-error *ngIf="userName.invalid">{{getError(userName)}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput [formControl]="password" type="password" required>
+          <mat-error *ngIf="password.invalid">{{getError(password)}}</mat-error>
+        </mat-form-field>
+      </ng-container>
+    </ng-template>
+  </div>
+  <div id="btn-container">
+    <button color="primary" mat-raised-button (click)="Add()" [disabled]="AnyFormControlInvalid()">Add</button>
+  </div>
+</div>
