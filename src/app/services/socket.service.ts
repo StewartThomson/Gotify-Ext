@@ -37,7 +37,7 @@ export class SocketService {
     return from(this.socketsMap.values());
   }
 
-  public open(url: string, token?: string) {
+  public open(url: string, token: string) {
     this.socketsMap.set(url, (new GotifySocket(url)).OpenConnection(token));
 
     this.openSocketSubject.next(this.socketsMap.get(url));

@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    chrome.browserAction.setBadgeText({text: ""});
     this.sidenavService.setSidenav(this.sidenav);
   }
 }
