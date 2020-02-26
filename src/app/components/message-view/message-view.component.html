@@ -2,7 +2,7 @@
   <h1>No messages</h1>
 </div>
 <ng-template #messageList>
-  <mat-card *ngFor="let message of messages">
+  <mat-card *ngFor="let message of messages | orderBy:'-date'">
     <mat-card-title-group>
       <mat-card-title>
         {{message.title}} - <span>{{message.date | dateAgo}}</span>

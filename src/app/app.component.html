@@ -11,7 +11,7 @@
         </mat-list-item>
         <hr>
         <mat-list-item color="primary" *ngFor="let server of servers">
-          <p [routerLink]="['/server', server.url]" (click)="sidenav.close()">{{ server.url }}</p>
+          <p [routerLink]="['/server/' + encodeURL(server.url)]" (click)="sidenav.close()">{{ server.url }}</p>
         </mat-list-item>
       </div>
     </mat-nav-list>

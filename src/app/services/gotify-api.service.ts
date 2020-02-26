@@ -23,11 +23,7 @@ export class GotifyAPIService {
   }
 
   public GetMessages(url: string, token: string, since = Number.MAX_SAFE_INTEGER) {
-    return this.http.get<BulkMessages>(url + "/message?since=" + since, {
-      headers: new HttpHeaders({
-        "X-Gotify-Key": token,
-      }),
-    }).pipe(
+    return this.http.get<BulkMessages>(`${url}/message?since=${since}&token=${token}`).pipe(
       map<BulkMessages, BulkMessages>(
         (msgs: BulkMessages) => {
           msgs.messages = msgs.messages.map<Message>((element) => {

@@ -16,6 +16,9 @@ export class AppComponent implements OnInit {
   @ViewChild("sidenav", {static: false}) public sidenav: MatSidenav;
 
   constructor(public sockets: SocketService, private sidenavService: SidenavService, private router: Router) {
+  }
+
+  public ngOnInit() {
     this.sockets.loadConnections().then(() => {
       if (this.sockets.getNumConnections() > 0) {
         this.router.navigate(["/server"]);
@@ -32,10 +35,12 @@ export class AppComponent implements OnInit {
       }
       chrome.storage.sync.set({connections});
     });
-  }
 
-  public ngOnInit() {
     chrome.browserAction.setBadgeText({text: ""});
     this.sidenavService.setSidenav(this.sidenav);
+  }
+
+  public encodeURL(url: string) {
+    return encodeURIComponent(url);
   }
 }
