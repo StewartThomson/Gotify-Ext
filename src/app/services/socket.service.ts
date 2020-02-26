@@ -15,10 +15,12 @@ export class SocketService {
 
   private closeSocket = this.closeSocketSubject.pipe(
     map((url: string) => {
-        this.socketsMap.get(url)
-          .CloseConnection();
+        if (this.socketsMap.get(url)) {
+          this.socketsMap.get(url)
+            .CloseConnection();
 
-        return this.socketsMap.delete(url);
+          return this.socketsMap.delete(url);
+        }
       },
     ),
   );
@@ -38,6 +40,7 @@ export class SocketService {
   }
 
   public open(url: string, token: string) {
+    this.close(url);
     this.socketsMap.set(url, (new GotifySocket(url)).OpenConnection(token));
 
     this.openSocketSubject.next(this.socketsMap.get(url));

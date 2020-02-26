@@ -1,7 +1,7 @@
-import { Message.Model } from './message.model';
+import { Message.Model } from "./message.model";
 
-describe('Message.Model', () => {
-  it('should create an instance', () => {
+describe("Message.Model", () => {
+  it("should create an instance", () => {
     expect(new Message.Model()).toBeTruthy();
   });
 });

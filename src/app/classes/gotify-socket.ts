@@ -8,7 +8,7 @@ export class GotifySocket {
   private token: string;
   private messages: Observable<Message>;
 
-  constructor(private url: string) {
+  constructor(public url: string) {
   }
 
   public OpenConnection(token: string) {
