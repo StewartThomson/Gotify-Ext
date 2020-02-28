@@ -2,7 +2,7 @@
   <h1>No messages</h1>
 </div>
 <ng-template #messageList>
-  <mat-card *ngFor="let message of messages | orderBy:'-date'">
+  <mat-card *ngFor="let message of messages | orderBy:'-date'; let i = index">
     <mat-card-title-group>
       <mat-card-title>
         {{message.title}}
@@ -20,7 +20,9 @@
           <mat-grid-tile-footer>{{message.date | dateAgo}}</mat-grid-tile-footer>
         </mat-grid-tile>
         <mat-grid-tile>
-          <mat-grid-tile-footer></mat-grid-tile-footer>
+          <mat-grid-tile-footer>
+            <button mat-raised-button (click)="DeleteMessage(message, i)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+          </mat-grid-tile-footer>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-footer>

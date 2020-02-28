@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {merge, Observable, Subject, Subscription} from "rxjs";
-import {delay, takeUntil} from "rxjs/operators";
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons/faTrashAlt";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 import {GotifySocket} from "../../classes/gotify-socket";
 import {BulkMessages} from "../../models/bulk-messages.model";
 import {Message} from "../../models/message.model";
@@ -14,10 +15,10 @@ import {SocketService} from "../../services/socket.service";
   templateUrl: "./message-view.component.html",
 })
 export class MessageViewComponent implements OnInit, OnDestroy {
+  public faTrashAlt = faTrashAlt;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public url: string;
   public messages: Message[];
-  private socketSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private gotifyAPI: GotifyAPIService, private sockets: SocketService) {
   }
@@ -55,7 +56,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
     if (this.url === "All") {
       this.sockets.$.pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
         this.gotifyAPI.GetMessages(res.GetURL(), res.GetToken()).subscribe((msgs: BulkMessages) => {
-            this.AddMessage(...msgs.messages);
+          this.AddMessage(...msgs.messages);
         });
       });
     } else {
@@ -63,5 +64,11 @@ export class MessageViewComponent implements OnInit, OnDestroy {
         this.AddMessage(...msgs.messages);
       });
     }
+  }
+
+  public DeleteMessage(msg: Message, index: number) {
+    this.gotifyAPI.DeleteMessage(msg.url, this.sockets.getSocket(msg.url).GetToken(), msg.id).subscribe(() => {
+      this.messages.splice(index, 1);
+    });
   }
 }

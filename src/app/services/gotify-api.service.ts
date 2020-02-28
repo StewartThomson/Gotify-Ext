@@ -35,4 +35,8 @@ export class GotifyAPIService {
       ),
     );
   }
+
+  public DeleteMessage(url: string, token: string, id: number) {
+    return this.http.delete(`${url}/message/${id}?token=${token}`);
+  }
 }
