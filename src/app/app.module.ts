@@ -19,6 +19,7 @@ import { MessageViewComponent } from "./components/message-view/message-view.com
 import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
 import { DateAgoPipe } from "./pipes/date-ago.pipe";
 import { OrderByDatePipe } from "./pipes/order-by-date.pipe";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -30,23 +31,24 @@ import { OrderByDatePipe } from "./pipes/order-by-date.pipe";
     OrderByDatePipe,
     OrderByDatePipe,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AppRoutingModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatCardModule,
-  ],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		HttpClientModule,
+		MatToolbarModule,
+		MatSidenavModule,
+		MatListModule,
+		MatIconModule,
+		AppRoutingModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatSelectModule,
+		ReactiveFormsModule,
+		FormsModule,
+		MatCardModule,
+		MatGridListModule,
+	],
   providers: [],
 })
 export class AppModule { }

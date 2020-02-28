@@ -5,7 +5,7 @@
   <mat-card *ngFor="let message of messages | orderBy:'-date'">
     <mat-card-title-group>
       <mat-card-title>
-        {{message.title}} - <span>{{message.date | dateAgo}}</span>
+        {{message.title}}
       </mat-card-title>
       <mat-card-subtitle *ngIf="url === 'All'">
         {{message.url}}
@@ -14,5 +14,15 @@
     <mat-card-content>
       {{message.message}}
     </mat-card-content>
+    <mat-card-footer>
+      <mat-grid-list cols="2" rowHeight="3:0.5">
+        <mat-grid-tile>
+          <mat-grid-tile-footer>{{message.date | dateAgo}}</mat-grid-tile-footer>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-grid-tile-footer></mat-grid-tile-footer>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-footer>
   </mat-card>
 </ng-template>
