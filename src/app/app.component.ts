@@ -13,7 +13,7 @@ import {SocketService} from "./services/socket.service";
 export class AppComponent implements OnInit {
   public title = "gotify-ext";
   public currentURL = "";
-  @ViewChild("sidenav", {static: false}) public sidenav: MatSidenav;
+  @ViewChild("sidenav") public sidenav: MatSidenav;
 
   constructor(public sockets: SocketService, private sidenavService: SidenavService, private router: Router) {
   }

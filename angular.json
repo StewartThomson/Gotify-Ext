@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "gotify-ext"
+  "defaultProject": "gotify-ext",
+  "cli": {
+    "analytics": "47f24346-f435-45b3-9daa-7a96a1b261a1"
+  }
 }
