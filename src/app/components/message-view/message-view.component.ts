@@ -30,7 +30,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
       this.url = params.url ? decodeURIComponent(params.url) : "All";
       this.LoadMessages();
       if (this.url === "All") {
-        this.sockets.$.pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
+        this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
           res.GetMessageSubscription().subscribe((msg) => {
             this.AddMessage(msg);
           });
@@ -54,7 +54,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
 
   private LoadMessages() {
     if (this.url === "All") {
-      this.sockets.$.pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
+      this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
         this.gotifyAPI.GetMessages(res.GetURL(), res.GetToken()).subscribe((msgs: BulkMessages) => {
           this.AddMessage(...msgs.messages);
         });
@@ -70,5 +70,22 @@ export class MessageViewComponent implements OnInit, OnDestroy {
     this.gotifyAPI.DeleteMessage(msg.url, this.sockets.getSocket(msg.url).GetToken(), msg.id).subscribe(() => {
       this.messages.splice(index, 1);
     });
+  }
+
+  public DeleteAllMessages() {
+    if (this.url === "All") {
+      this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
+        this.gotifyAPI.DeleteAllMessages(res.GetURL(), res.GetToken()).subscribe(() => {
+          // Maybe there's a nicer way of doing this. idk right now
+          this.messages = this.messages.filter((msg) => {
+            return msg.url !== res.GetURL();
+          });
+        });
+      });
+    } else {
+      this.gotifyAPI.DeleteAllMessages(this.url, this.sockets.getSocket(this.url).GetToken()).subscribe(() => {
+        this.messages = [];
+      });
+    }
   }
 }

@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 
   let unreadCount = 0;
-  socket.$.subscribe((gotify: GotifySocket) => gotify.GetMessageSubscription().subscribe((_) => {
+  socket.initSocket().subscribe((gotify: GotifySocket) => gotify.GetMessageSubscription().subscribe((_) => {
     unreadCount++;
     chrome.browserAction.setBadgeText({text: unreadCount.toString()});
   }));

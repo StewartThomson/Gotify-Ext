@@ -2,6 +2,9 @@
   <h1>No messages</h1>
 </div>
 <ng-template #messageList>
+  <button mat-raised-button color="primary" (click)="DeleteAllMessages()">
+    DELETE ALL
+  </button>
   <mat-card *ngFor="let message of messages | orderBy:'-date'; let i = index">
     <mat-card-title-group>
       <mat-card-title>
