@@ -5,6 +5,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
@@ -58,6 +59,7 @@ import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
       preventDuplicates: true,
       positionClass: "toast-bottom-left",
     }),
+    MatCheckboxModule,
   ],
   providers: [],
 })

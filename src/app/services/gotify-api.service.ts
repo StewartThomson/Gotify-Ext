@@ -1,6 +1,7 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map} from "rxjs/operators";
+import {Application} from "../models/application.model";
 import {BulkMessages} from "../models/bulk-messages.model";
 import {ClientResponse} from "../models/client-response.model";
 import {Message} from "../models/message.model";
@@ -23,7 +24,7 @@ export class GotifyAPIService {
   }
 
   public GetMessages(url: string, token: string, since = Number.MAX_SAFE_INTEGER) {
-    return this.http.get<BulkMessages>(`${url}/message?since=${since}&token=${token}`).pipe(
+    return this.http.get<BulkMessages>(`${url}/message?since=${since}&token=${token}&limit=200`).pipe(
       map<BulkMessages, BulkMessages>(
         (msgs: BulkMessages) => {
           msgs.messages = msgs.messages.map<Message>((element) => {
@@ -42,5 +43,17 @@ export class GotifyAPIService {
 
   public DeleteAllMessages(url: string, token: string) {
     return this.http.delete(`${url}/message?token=${token}`);
+  }
+
+  public GetApplications(url: string, token: string) {
+    return this.http.get<Application[]>(`${url}/application?token=${token}`).pipe(
+      map<Application[], Application[]>(
+        (apps: Application[]) => {
+          return apps.map((element) => {
+            return new Application().deserialize(element).setURL(url);
+          });
+        },
+      ),
+    );
   }
 }
