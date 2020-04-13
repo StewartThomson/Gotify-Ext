@@ -1,6 +1,6 @@
 {
   "name": "Gotify",
-  "version": "1.0",
+  "version": "{|vers|}",
   "description": "Unofficial browser extension for Gotify",
   "manifest_version": 2,
   "icons": {
