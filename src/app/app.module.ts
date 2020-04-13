@@ -15,13 +15,13 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ToastrModule} from "ngx-toastr";
 import {AppComponent} from "./app.component";
 import {AddViewComponent} from "./components/add-view/add-view.component";
 import {MessageViewComponent} from "./components/message-view/message-view.component";
 import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
 import {DateAgoPipe} from "./pipes/date-ago.pipe";
 import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
-import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -54,8 +54,9 @@ import {ToastrModule} from "ngx-toastr";
     ToastrModule.forRoot({
       countDuplicates: true,
       maxOpened: 5,
-      newestOnTop: false,
+      newestOnTop: true,
       preventDuplicates: true,
+      positionClass: "toast-bottom-left",
     }),
   ],
   providers: [],
