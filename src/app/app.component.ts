@@ -36,7 +36,8 @@ export class AppComponent implements OnInit {
       chrome.storage.sync.set({connections});
     });
 
-    chrome.browserAction.setBadgeText({text: ""});
+    // We'll tell the background script that the popup is open
+    chrome.runtime.connect();
     this.sidenavService.setSidenav(this.sidenav);
   }
 
