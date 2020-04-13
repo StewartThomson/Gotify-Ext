@@ -14,13 +14,14 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {AppComponent} from "./app.component";
 import {AddViewComponent} from "./components/add-view/add-view.component";
 import {MessageViewComponent} from "./components/message-view/message-view.component";
 import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
 import {DateAgoPipe} from "./pipes/date-ago.pipe";
 import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -50,6 +51,12 @@ import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
     MatCardModule,
     MatGridListModule,
     FontAwesomeModule,
+    ToastrModule.forRoot({
+      countDuplicates: true,
+      maxOpened: 5,
+      newestOnTop: false,
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
 })
