@@ -11,8 +11,10 @@
   "background": {
     "scripts": [
       "background.js",
-      "runtime.js",
-      "vendor.js"
+      "runtime.js"
+    ],
+    "styles": [
+      "styles.css"
     ]
   },
   "permissions": [
