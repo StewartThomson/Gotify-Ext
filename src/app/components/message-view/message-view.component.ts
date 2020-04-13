@@ -8,6 +8,7 @@ import {BulkMessages} from "../../models/bulk-messages.model";
 import {Message} from "../../models/message.model";
 import {GotifyAPIService} from "../../services/gotify-api.service";
 import {SocketService} from "../../services/socket.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: "app-message-view",
@@ -20,7 +21,8 @@ export class MessageViewComponent implements OnInit, OnDestroy {
   public url: string;
   public messages: Message[];
 
-  constructor(private route: ActivatedRoute, private gotifyAPI: GotifyAPIService, private sockets: SocketService) {
+  constructor(private route: ActivatedRoute, private gotifyAPI: GotifyAPIService, private sockets: SocketService,
+              private alert: AlertService) {
   }
 
   public ngOnInit() {
@@ -33,12 +35,12 @@ export class MessageViewComponent implements OnInit, OnDestroy {
         this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
           res.GetMessageSubscription().subscribe((msg) => {
             this.AddMessage(msg);
-          });
+          }, (err) => this.alert.error(err, `Unable to open socket to: ${res.url}`));
         });
       } else {
         this.sockets.getSocket(this.url).GetMessageSubscription().subscribe((msg) => {
           this.AddMessage(msg);
-        });
+        }, (err) => this.alert.error(err, `Unable to open socket`));
       }
     });
   }
@@ -57,19 +59,19 @@ export class MessageViewComponent implements OnInit, OnDestroy {
       this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
         this.gotifyAPI.GetMessages(res.GetURL(), res.GetToken()).subscribe((msgs: BulkMessages) => {
           this.AddMessage(...msgs.messages);
-        });
+        }, (err) => this.alert.error(err, `Unable to load previous messages for: ${res.url}`));
       });
     } else {
       this.gotifyAPI.GetMessages(this.url, this.sockets.getSocket(this.url).GetToken()).subscribe((msgs: BulkMessages) => {
         this.AddMessage(...msgs.messages);
-      });
+      }, (err) => this.alert.error(err, `Unable to load previous messages`));
     }
   }
 
   public DeleteMessage(msg: Message, index: number) {
     this.gotifyAPI.DeleteMessage(msg.url, this.sockets.getSocket(msg.url).GetToken(), msg.id).subscribe(() => {
       this.messages.splice(index, 1);
-    });
+    }, (err) => this.alert.error(err, `Unable to delete message`));
   }
 
   public DeleteAllMessages() {
@@ -80,12 +82,12 @@ export class MessageViewComponent implements OnInit, OnDestroy {
           this.messages = this.messages.filter((msg) => {
             return msg.url !== res.GetURL();
           });
-        });
+        }, (err) => this.alert.error(err, `Unable to delete all messages for ${res.url}`));
       });
     } else {
       this.gotifyAPI.DeleteAllMessages(this.url, this.sockets.getSocket(this.url).GetToken()).subscribe(() => {
         this.messages = [];
-      });
+      }, (err) => this.alert.error(err, `Unable to delete all messages`));
     }
   }
 }

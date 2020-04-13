@@ -1,7 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {GotifyAPIService} from "../../services/gotify-api.service";
 import {SocketService} from "../../services/socket.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: "app-add-view",
@@ -24,7 +25,7 @@ export class AddViewComponent {
     userName: this.userName,
   });
 
-  constructor(public sockets: SocketService, public gotifyAPI: GotifyAPIService) {
+  constructor(public sockets: SocketService, public gotifyAPI: GotifyAPIService, private alert: AlertService) {
   }
 
   public getError(formControl) {
@@ -46,10 +47,12 @@ export class AddViewComponent {
   public Add() {
     if (this.authType.value === "token") {
       this.sockets.open(this.url.value, this.token.value);
+      this.alert.info(`Added ${this.url.value}`);
     } else if (this.authType.value === "login") {
       this.gotifyAPI.GetClientToken(this.url.value, this.userName.value, this.password.value, this.appName.value).subscribe((res) => {
         this.sockets.open(this.url.value, res.token);
-      });
+        this.alert.info(`Added ${this.url.value}`);
+      }, (err) => this.alert.error(err, "Error retrieving client token"));
     }
   }
 }
