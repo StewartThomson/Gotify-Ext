@@ -4,21 +4,21 @@ import { MatSidenav } from "@angular/material/sidenav";
   providedIn: "root",
 })
 export class SidenavService {
-  private sidenav: MatSidenav;
+  private sideNavs = new Map<string, MatSidenav>();
 
-  public setSidenav(sidenav: MatSidenav) {
-    this.sidenav = sidenav;
+  public setSidenav(sidenav: MatSidenav, pos = "default") {
+    this.sideNavs.set(pos, sidenav);
   }
 
-  public open() {
-    return this.sidenav.open();
+  public open(pos = "default") {
+    return this.sideNavs.get(pos).open();
   }
 
-  public close() {
-    return this.sidenav.close();
+  public close(pos = "default") {
+    return this.sideNavs.get(pos).close();
   }
 
-  public toggle(): void {
-    this.sidenav.toggle();
+  public toggle(pos = "default"): void {
+    this.sideNavs.get(pos).toggle();
   }
 }
