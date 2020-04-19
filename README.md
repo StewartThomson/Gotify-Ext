@@ -4,7 +4,8 @@ A browser extension for Gotify
 
 ## Support:
 
-- Chrome
+- [Chrome](https://chrome.google.com/webstore/detail/gotify/defcailckfpgaigaiijligpnjipkhhmg)
+- [Firefox](https://addons.mozilla.org/en-CA/firefox/addon/gotify/)
 
 ## Installation
 You must configure your server CORS to allow the extension to make requests, like so:
@@ -26,6 +27,10 @@ environment:
         GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
 ```
 
+Note: if you are using firefox, replace `chrome-extension` with `moz-extension`, and replace `defcailckfpgaigaiijligpnjipkhhmg` with `a419db6d-a40b-4b85-b77a-e4e46991f967`
+
+Or you could just set the `Access-Control-Allow-Origin` to `"*"` and the `stream allowed origin` to `".*"` if you're real yolo about that kind of stuff.
+
 More info can be found here: https://gotify.net/docs/config
 
 ## Development
@@ -33,31 +38,26 @@ Dependencies:
 
 - Docker/docker-compose
 
-First, run an initial build.
+First, fire up the docker stack.
 
 ```shell script
 cd gotify_dev && docker-compose up
 ```
 
-You can `ctrl+c` out once the ng cli has finished building.
+This might take a while because `npm install` is running
 
+### Chrome
 Next, navigate your browser to `chrome://extensions` and toggle `Developer mode` on.
 
 Then, click `Load unpacked` and load up the `dist/gotify-ext` folder. (this will only work if you have run the initial build earlier)
 
-Once the unpacked extension has successfully started, copy the extension id from here
+### Firefox
+Next, navigate your browser to `about:debugging`
 
-![Unpacked Extension](images/unpacked_ext.png)
+Then, click `Load Temporary Add-on...` and load up the `dist/gotify-ext/manifest.json` folder. (this will only work if you have run the initial build earlier)
 
-Then, in `gotify_dev` copy and paste `example.env` as `.env` and assign `EXT_ID` with the value you've copied.
-
-Fire up the docker stack like before with
-
-```shell script
-docker-compose up
-```
-
-If you have both the production Gotify extension and are developing, you can tell the difference as the development version has this little notification when you open the popup:
+### First run
+If you have both the production gotify extension and are developing, you can tell the difference as the development version has this little notification when you open the popup:
 
 ![Dev notification](images/dev_notif.png)
 
@@ -66,5 +66,10 @@ You can now add your local docker gotify server to your dev extension with a url
 ![Dev login](images/dev_login.png)
 
 You should be all set. I recommend using the [Gotify cli](https://github.com/gotify/cli) to test pushing messages to your dev server.
+
+### Building for prod
+In the root of the project, run `npm run prod` and it will create the necessary zip file for distribution using the most recent git tag as the version.
+
+The git tag should be updated using the [npm version](https://docs.npmjs.com/cli/version) command.
 
 Logo is from https://github.com/gotify/logo

@@ -45,5 +45,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.env
 gotify_dev/gotify
+gotify-ext-src.zip
