@@ -7,13 +7,13 @@ services:
     volumes:
       - ./gotify/data:/app/data
     environment:
-      GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS\"\nAccess-Control-Allow-Origin: \"chrome-extension://${EXT_ID}\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
-      GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"${EXT_ID}\""
+      GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS\"\nAccess-Control-Allow-Origin: \"*\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
+      GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \".*\""
     ports:
       - 8000:80
   ng_cli:
     container_name: "ng_cli"
     image: trion/ng-cli
-    command: ng build --watch
+    command: sh -c "[ -d \"node_modules\" ] || npm install && ng build --watch"
     volumes:
       - ..:/app
