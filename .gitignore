@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 
 .env
+gotify_dev/gotify
