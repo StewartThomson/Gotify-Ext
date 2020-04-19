@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  gotify_server:
+    container_name: "gotify_server"
+    image: gotify/server
+    volumes:
+      - ./gotify/data:/app/data
+    environment:
+      GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS\"\nAccess-Control-Allow-Origin: \"chrome-extension://${EXT_ID}\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
+      GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"${EXT_ID}\""
+    ports:
+      - 8000:80
+  ng_cli:
+    container_name: "ng_cli"
+    image: trion/ng-cli
+    command: ng build --watch
+    volumes:
+      - ..:/app

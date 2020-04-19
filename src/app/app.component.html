@@ -27,10 +27,10 @@
           Remove server
         </button>
       </mat-list-item>
-      <div *ngIf="filter.applicationFiltered">
+      <div *ngIf="filterService.applicationFiltered">
         <hr>
-        <mat-list-item color="primary" *ngFor="let app of filter.applicationFiltered | keyvalue">
-          <mat-checkbox color="primary" [(ngModel)]="app.value" (click)="filter.toggle(app.key)"><p>{{ app.key.name }}</p></mat-checkbox>
+        <mat-list-item color="primary" *ngFor="let app of filterService.applicationFiltered | keyvalue">
+          <mat-checkbox color="primary" [(ngModel)]="app.value" (click)="filterService.toggle(app.key)"><p>{{ app.key.name }}</p></mat-checkbox>
         </mat-list-item>
       </div>
     </mat-nav-list>
