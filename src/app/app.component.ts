@@ -3,7 +3,9 @@ import {MatSidenav} from "@angular/material/sidenav";
 import {ActivationEnd, Router} from "@angular/router";
 import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
 import {filter, first} from "rxjs/operators";
+import {environment} from "../environments/environment";
 import {GotifySocket} from "./classes/gotify-socket";
+import {AlertService} from "./services/alert.service";
 import {FilterService} from "./services/filter.service";
 import {SidenavService} from "./services/sidenav.service";
 import {SocketService} from "./services/socket.service";
@@ -21,10 +23,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("mgmt") public mgmtNav: MatSidenav;
 
   constructor(public sockets: SocketService, private sidenavService: SidenavService, private router: Router,
-              public filter: FilterService) {
+              public filterService: FilterService, private alert: AlertService) {
   }
 
   public ngOnInit() {
+    if(!environment.production) {
+      this.alert.info("dev mode");
+    }
     this.sockets.loadConnections().then(() => {
       // If there's only one server, just go there, otherwise view all
       if (this.sockets.getNumConnections() === 1) {
