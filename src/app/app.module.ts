@@ -16,6 +16,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {NgScrollbarModule} from "ngx-scrollbar";
 import {ToastrModule} from "ngx-toastr";
 import {AppComponent} from "./app.component";
 import {AddViewComponent} from "./components/add-view/add-view.component";
@@ -51,13 +52,18 @@ import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
     FormsModule,
     MatCardModule,
     MatGridListModule,
+    NgScrollbarModule.withConfig({
+      appearance: "compact",
+      minThumbSize: 100,
+      visibility: "hover",
+    }),
     FontAwesomeModule,
     ToastrModule.forRoot({
       countDuplicates: true,
       maxOpened: 5,
       newestOnTop: true,
-      preventDuplicates: true,
       positionClass: "toast-bottom-left",
+      preventDuplicates: true,
     }),
     MatCheckboxModule,
   ],
