@@ -14,7 +14,7 @@ In your config.yml
 server:
   responseheaders: # response headers are added to every response (default: none)
     Access-Control-Allow-Origin: "chrome-extension://defcailckfpgaigaiijligpnjipkhhmg"
-    Access-Control-Allow-Methods: "GET,POST,OPTIONS"
+    Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE"
     Access-Control-Allow-Headers: "Authorization, content-type"
   stream:
     allowedorigins: # allowed origins for websocket connections (same origin is always allowed, default only same origin)
@@ -23,7 +23,7 @@ server:
 Or, in your docker-compose.yml
 ```
 environment:
-        GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS\"\nAccess-Control-Allow-Origin: \"chrome-extension://defcailckfpgaigaiijligpnjipkhhmg\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
+        GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS,DELETE\"\nAccess-Control-Allow-Origin: \"chrome-extension://defcailckfpgaigaiijligpnjipkhhmg\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
         GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
 ```
 

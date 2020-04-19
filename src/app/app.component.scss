@@ -8,3 +8,18 @@
   justify-content: center;
   margin-top: 5%;
 }
+
+.global-scrollbar {
+  --scrollbar-border-radius: 7px;
+  --scrollbar-padding: 0px;
+  --scrollbar-viewport-margin: 0;
+  --scrollbar-track-color: rgba(0,0,0,0.1);
+  --scrollbar-wrapper-color: transparent;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover-color: var(--scrollbar-thumb-color);
+  --scrollbar-size: 10px;
+  --scrollbar-hover-size: calc(var(--scrollbar-size) * 2);
+  --scrollbar-thumb-transition: height 0ms, width 0ms;
+  --scrollbar-track-transition: height 0ms, width 0ms;
+  --scrollbar-gap: 0px;
+}
