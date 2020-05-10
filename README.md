@@ -14,7 +14,7 @@ In your config.yml
 server:
   cors:
     alloworigins:
-        - "chrome-extension://defcailckfpgaigaiijligpnjipkhhmg"d
+        - "chrome-extension://defcailckfpgaigaiijligpnjipkhhmg"
     allowmethods:
         - "GET"
         - "POST"
@@ -32,7 +32,7 @@ Or, in your docker-compose.yml
 environment:
        GOTIFY_SERVER_CORS_ALLOWORIGINS: "- \"chrome-extension://defcailckfpgaigaiijligpnjipkhhmg\""
        GOTIFY_SERVER_CORS_ALLOWHEADERS: "- \"Authorization\"\n- \"content-type\""
-       GOTIFY_SERVER_CORS_ALLOWMETHODS: "- \"GET\"\n- \"POST\"\n- \"OPTIONS\""
+       GOTIFY_SERVER_CORS_ALLOWMETHODS: "- \"GET\"\n- \"POST\"\n- \"OPTIONS\"\n- \"DELETE\""
        GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
 ```
 
