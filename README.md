@@ -12,10 +12,17 @@ You must configure your server CORS to allow the extension to make requests, lik
 In your config.yml
 ```
 server:
-  responseheaders: # response headers are added to every response (default: none)
-    Access-Control-Allow-Origin: "chrome-extension://defcailckfpgaigaiijligpnjipkhhmg"
-    Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE"
-    Access-Control-Allow-Headers: "Authorization, content-type"
+  cors:
+    alloworigins:
+        - "chrome-extension://defcailckfpgaigaiijligpnjipkhhmg"d
+    allowmethods:
+        - "GET"
+        - "POST"
+        - "OPTIONS"
+        - "DELETE"
+    allowheaders:
+        - "Authorization"
+        - "content-type"
   stream:
     allowedorigins: # allowed origins for websocket connections (same origin is always allowed, default only same origin)
       - "defcailckfpgaigaiijligpnjipkhhmg"
@@ -23,8 +30,10 @@ server:
 Or, in your docker-compose.yml
 ```
 environment:
-        GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS,DELETE\"\nAccess-Control-Allow-Origin: \"chrome-extension://defcailckfpgaigaiijligpnjipkhhmg\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
-        GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
+       GOTIFY_SERVER_CORS_ALLOWORIGINS: "- \"chrome-extension://defcailckfpgaigaiijligpnjipkhhmg\""
+       GOTIFY_SERVER_CORS_ALLOWHEADERS: "- \"Authorization\"\n- \"content-type\""
+       GOTIFY_SERVER_CORS_ALLOWMETHODS: "- \"GET\"\n- \"POST\"\n- \"OPTIONS\""
+       GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
 ```
 
 Note: if you are using firefox, replace `chrome-extension` with `moz-extension`, and replace `defcailckfpgaigaiijligpnjipkhhmg` with `a419db6d-a40b-4b85-b77a-e4e46991f967`

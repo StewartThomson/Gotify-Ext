@@ -7,7 +7,9 @@ services:
     volumes:
       - ./gotify/data:/app/data
     environment:
-      GOTIFY_SERVER_RESPONSEHEADERS: "Access-Control-Allow-Methods: \"GET,POST,OPTIONS,DELETE\"\nAccess-Control-Allow-Origin: \"*\"\nAccess-Control-Allow-Headers: \"Authorization, content-type\""
+      GOTIFY_SERVER_CORS_ALLOWMETHODS: "- \"GET\"\n- \"POST\"\n- \"OPTIONS\"\n- \"DELETE\""
+      GOTIFY_SERVER_CORS_ALLOWORIGINS: "- \".*\""
+      GOTIFY_SERVER_CORS_ALLOWHEADERS: "- \"Authorization\"\n- \"content-type\""
       GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \".*\""
     ports:
       - 8000:80
