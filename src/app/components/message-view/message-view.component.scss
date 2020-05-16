@@ -16,3 +16,18 @@
 .mat-grid-tile-footer {
   justify-content: center;
 }
+
+.load-more-area {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.load-more-area > button {
+  min-width: 50%;
+}
+
+.load-more-bar {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

@@ -28,6 +28,7 @@ export class FilterService {
             for (const app of apps) {
               this.applicationFiltered.set(app, true);
             }
+            this.changed$.next();
           }, (err) => this.alert.error(err, "Unable to get applications"));
         } else {
           this.applicationFiltered.clear();

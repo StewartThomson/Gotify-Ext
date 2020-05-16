@@ -1,43 +1,43 @@
-<ng-scrollbar class="global-scrollbar">
-  <mat-sidenav-container>
-    <mat-sidenav class="center" #sidenav mode="side" [fixedInViewport]="true" [fixedTopGap]="0" [fixedBottomGap]="0">
-      <mat-nav-list align="center">
-        <mat-list-item routerLink='/add' (click)="sidenav.close()">
-          <p>Add New Server</p>
+<mat-sidenav-container>
+  <mat-sidenav class="center" #sidenav mode="side" [fixedInViewport]="true" [fixedTopGap]="0" [fixedBottomGap]="0">
+    <mat-nav-list align="center">
+      <mat-list-item routerLink='/add' (click)="sidenav.close()">
+        <p>Add New Server</p>
+      </mat-list-item>
+      <div *ngIf="sockets.sockets | async as servers">
+        <hr>
+        <mat-list-item routerLink='/server' (click)="sidenav.close()">
+          <p>All</p>
         </mat-list-item>
-        <div *ngIf="sockets.sockets | async as servers">
-          <hr>
-          <mat-list-item routerLink='/server' (click)="sidenav.close()">
-            <p>All</p>
-          </mat-list-item>
-          <hr>
-          <mat-list-item color="primary" *ngFor="let server of servers"
-                         [routerLink]="['/server/' + encodeURL(server.url)]" (click)="sidenav.close()">
-            <p>{{ server.url }}</p>
-          </mat-list-item>
-        </div>
-      </mat-nav-list>
-    </mat-sidenav>
-
-    <mat-sidenav class="center" #sidenav mode="side" [fixedInViewport]="true" [fixedTopGap]="0" [fixedBottomGap]="0"
-                 #mgmt position="end">
-      <mat-nav-list align="center">
-        <mat-list-item>
-          <button mat-raised-button color="warn" (click)="DeleteCurrentUrl()">
-            Remove server
-          </button>
+        <hr>
+        <mat-list-item color="primary" *ngFor="let server of servers"
+                       [routerLink]="['/server/' + encodeURL(server.url)]" (click)="sidenav.close()">
+          <p>{{ server.url }}</p>
         </mat-list-item>
-        <div *ngIf="filterService.applicationFiltered">
-          <hr>
-          <mat-list-item color="primary" *ngFor="let app of filterService.applicationFiltered | keyvalue">
-            <mat-checkbox color="primary" [(ngModel)]="app.value" (click)="filterService.toggle(app.key)">
-              <p>{{ app.key.name }}</p></mat-checkbox>
-          </mat-list-item>
-        </div>
-      </mat-nav-list>
-    </mat-sidenav>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
 
-    <mat-sidenav-content>
+  <mat-sidenav class="center" #sidenav mode="side" [fixedInViewport]="true" [fixedTopGap]="0" [fixedBottomGap]="0"
+               #mgmt position="end">
+    <mat-nav-list align="center">
+      <mat-list-item>
+        <button mat-raised-button color="warn" (click)="DeleteCurrentUrl()">
+          Remove server
+        </button>
+      </mat-list-item>
+      <div *ngIf="filterService.applicationFiltered">
+        <hr>
+        <mat-list-item color="primary" *ngFor="let app of filterService.applicationFiltered | keyvalue">
+          <mat-checkbox color="primary" [(ngModel)]="app.value" (click)="filterService.toggle(app.key)">
+            <p>{{ app.key.name }}</p></mat-checkbox>
+        </mat-list-item>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-scrollbar class="global-scrollbar" #scrollable>
       <div class="grid-container">
         <mat-toolbar class="header" color="primary">
           <button mat-icon-button (click)="sidenav.toggle()">
@@ -57,7 +57,8 @@
           <router-outlet></router-outlet>
         </div>
       </div>
-    </mat-sidenav-content>
+    </ng-scrollbar>
 
-  </mat-sidenav-container>
-</ng-scrollbar>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
