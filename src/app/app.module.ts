@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 
+import {OverlayModule} from "@angular/cdk/overlay";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
@@ -21,6 +22,7 @@ import {NgScrollbarModule} from "ngx-scrollbar";
 import {ToastrModule} from "ngx-toastr";
 import {AppComponent} from "./app.component";
 import {AddViewComponent} from "./components/add-view/add-view.component";
+import {BackToTopComponent} from "./components/back-to-top/back-to-top.component";
 import {MessageViewComponent} from "./components/message-view/message-view.component";
 import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
 import {DateAgoPipe} from "./pipes/date-ago.pipe";
@@ -35,6 +37,7 @@ import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
     DateAgoPipe,
     OrderByDatePipe,
     OrderByDatePipe,
+    BackToTopComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ import {OrderByDatePipe} from "./pipes/order-by-date.pipe";
     }),
     MatCheckboxModule,
     MatProgressBarModule,
+    OverlayModule,
   ],
   providers: [],
 })
