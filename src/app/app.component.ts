@@ -2,11 +2,13 @@ import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 import {MatSidenav} from "@angular/material/sidenav";
 import {ActivationEnd, Router} from "@angular/router";
 import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
+import {NgScrollbar} from "ngx-scrollbar";
 import {filter, first} from "rxjs/operators";
 import {environment} from "../environments/environment";
 import {GotifySocket} from "./classes/gotify-socket";
 import {AlertService} from "./services/alert.service";
 import {FilterService} from "./services/filter.service";
+import {ScrollService} from "./services/scroll.service";
 import {SidenavService} from "./services/sidenav.service";
 import {SocketService} from "./services/socket.service";
 
@@ -21,13 +23,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   public currentURL = "";
   @ViewChild("sidenav") public sidenav: MatSidenav;
   @ViewChild("mgmt") public mgmtNav: MatSidenav;
+  @ViewChild("scrollable") public scrollable: NgScrollbar;
 
   constructor(public sockets: SocketService, private sidenavService: SidenavService, private router: Router,
-              public filterService: FilterService, private alert: AlertService) {
+              public filterService: FilterService, private alert: AlertService, private scroll: ScrollService) {
   }
 
   public ngOnInit() {
-    if(!environment.production) {
+    if (!environment.production) {
       this.alert.info("dev mode");
     }
     this.sockets.loadConnections().then(() => {
@@ -70,6 +73,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     this.sidenavService.setSidenav(this.sidenav);
     this.sidenavService.setSidenav(this.mgmtNav, "mgmt");
+    this.scroll.setScrollBarRef(this.scrollable);
   }
 
   public encodeURL(url: string) {

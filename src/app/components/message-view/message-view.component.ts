@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons/faTrashAlt";
 import {Subject} from "rxjs";
@@ -6,10 +6,11 @@ import {takeUntil} from "rxjs/operators";
 import {GotifySocket} from "../../classes/gotify-socket";
 import {BulkMessages} from "../../models/bulk-messages.model";
 import {Message} from "../../models/message.model";
-import {GotifyAPIService} from "../../services/gotify-api.service";
-import {SocketService} from "../../services/socket.service";
 import {AlertService} from "../../services/alert.service";
 import {FilterService} from "../../services/filter.service";
+import {GotifyAPIService} from "../../services/gotify-api.service";
+import {ScrollService} from "../../services/scroll.service";
+import {SocketService} from "../../services/socket.service";
 
 @Component({
   selector: "app-message-view",
@@ -17,14 +18,20 @@ import {FilterService} from "../../services/filter.service";
   templateUrl: "./message-view.component.html",
 })
 export class MessageViewComponent implements OnInit, OnDestroy {
-  public faTrashAlt = faTrashAlt;
+  // For keeping track of paging per server
+  private oldestMsgPerServer = new Map<string, number>();
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isInitialLoad = true;
+
+  public faTrashAlt = faTrashAlt;
   public url: string;
   public messages: Message[];
   public viewMessages: Message[] = [];
+  public showLoadMore = true;
+  public numLoading = 0;
 
   constructor(private route: ActivatedRoute, private gotifyAPI: GotifyAPIService, private sockets: SocketService,
-              private alert: AlertService, private filterService: FilterService) {
+              private alert: AlertService, private filterService: FilterService, private scroll: ScrollService) {
   }
 
   public ngOnInit() {
@@ -32,6 +39,7 @@ export class MessageViewComponent implements OnInit, OnDestroy {
       this.destroy$.next(true);
       this.messages = [];
       this.url = params.url ? decodeURIComponent(params.url) : "All";
+      this.oldestMsgPerServer.clear();
       this.LoadMessages();
       if (this.url === "All") {
         this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
@@ -66,16 +74,26 @@ export class MessageViewComponent implements OnInit, OnDestroy {
   private LoadMessages() {
     if (this.url === "All") {
       this.sockets.initSocket().pipe(takeUntil(this.destroy$)).subscribe((res: GotifySocket) => {
-        this.gotifyAPI.GetMessages(res.GetURL(), res.GetToken()).subscribe((msgs: BulkMessages) => {
-          this.AddMessage(...msgs.messages);
-          this.filterMessages();
-        }, (err) => this.alert.error(err, `Unable to load previous messages for: ${res.url}`));
+        this.numLoading++;
+        const since = this.oldestMsgPerServer.get(res.GetURL()) ?? Number.MAX_SAFE_INTEGER;
+        this.gotifyAPI.GetMessages(res.GetURL(), res.GetToken(), since)
+          .subscribe((msgs: BulkMessages) => {
+            this.AddMessage(...msgs.messages);
+            this.oldestMsgPerServer.set(res.GetURL(), msgs.paging.since);
+            this.filterMessages();
+            this.decrementLoadingCount();
+          }, (err) => this.alert.error(err, `Unable to load previous messages for: ${res.url}`));
       });
     } else {
-      this.gotifyAPI.GetMessages(this.url, this.sockets.getSocket(this.url).GetToken()).subscribe((msgs: BulkMessages) => {
-        this.AddMessage(...msgs.messages);
-        this.filterMessages();
-      }, (err) => this.alert.error(err, `Unable to load previous messages`));
+      const since = this.oldestMsgPerServer.get(this.url) ?? Number.MAX_SAFE_INTEGER;
+      this.numLoading++;
+      this.gotifyAPI.GetMessages(this.url, this.sockets.getSocket(this.url).GetToken(), since)
+        .subscribe((msgs: BulkMessages) => {
+          this.AddMessage(...msgs.messages);
+          this.oldestMsgPerServer.set(this.url, msgs.paging.since);
+          this.filterMessages();
+          this.decrementLoadingCount();
+        }, (err) => this.alert.error(err, `Unable to load previous messages`));
     }
   }
 
@@ -106,6 +124,10 @@ export class MessageViewComponent implements OnInit, OnDestroy {
   }
 
   private filterMessages() {
+    this.showLoadMore = !Array.from(this.oldestMsgPerServer.values()).every((val) => {
+      return val === 0;
+    });
+
     if (this.url === "All") {
       this.viewMessages = this.messages;
       return;
@@ -117,5 +139,20 @@ export class MessageViewComponent implements OnInit, OnDestroy {
       }
     }
     this.viewMessages = this.messages.filter((element) => acceptedApps.indexOf(element.appid) !== -1);
+  }
+
+  private decrementLoadingCount() {
+    this.numLoading--;
+    if (!this.isInitialLoad && this.numLoading === 0) {
+      // For some reason, if this is done instantly it doesn't work ¯\_(ツ)_/¯
+      setTimeout(() => {
+        this.scroll.scrollToBottom();
+      }, 1);
+    }
+  }
+
+  public LoadMore() {
+    this.isInitialLoad = false;
+    this.LoadMessages();
   }
 }

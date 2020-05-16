@@ -24,10 +24,18 @@
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-grid-tile-footer>
-            <button mat-raised-button (click)="DeleteMessage(message, i)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+            <button mat-raised-button (click)="DeleteMessage(message, i)">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
           </mat-grid-tile-footer>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-footer>
   </mat-card>
+  <div *ngIf="showLoadMore" class="load-more-area">
+    <button *ngIf="numLoading === 0" mat-raised-button color="primary" (click)="LoadMore()">
+      Load More...
+    </button>
+    <mat-progress-bar class="load-more-bar" *ngIf="numLoading > 0" mode="indeterminate"></mat-progress-bar>
+  </div>
 </ng-template>
