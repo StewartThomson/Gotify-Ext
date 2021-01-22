@@ -16,9 +16,16 @@
     ]
   },
   "permissions": [
-    "storage"
+    "storage",
+    "notifications"
   ],
   "browser_action": {
     "default_popup": "index.html"
   }
+// ,
+//  "applications": {
+//    "gecko": {
+//      "id": "gotify@dev.com"
+//    }
+//  }
 }
