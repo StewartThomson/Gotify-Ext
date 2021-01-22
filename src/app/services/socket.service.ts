@@ -62,7 +62,7 @@ export class SocketService {
             this.open(connectionInfo.url, connectionInfo.token);
           }
         }
-        resolve();
+        resolve(true);
       });
     });
   }
