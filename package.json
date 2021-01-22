@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "postinstall": "ngcc",
     "src-zip": "zip -r gotify-ext-src ./* -x 'node_modules/*' '.git/*' 'gotify_dev/gotify/*' 'dist/*' 'deploy.fish'"
   },
   "private": true,
