@@ -36,7 +36,9 @@ environment:
        GOTIFY_SERVER_STREAM_ALLOWEDORIGINS: "- \"defcailckfpgaigaiijligpnjipkhhmg\""
 ```
 
-Note: if you are using firefox, replace `chrome-extension` with `moz-extension`, and replace `defcailckfpgaigaiijligpnjipkhhmg` with `a419db6d-a40b-4b85-b77a-e4e46991f967`
+Note: if you are using firefox, the origin of the extension changes per-installation. This means that your installation will be unique per-device.
+
+See: https://github.com/StewartThomson/Gotify-Ext/issues/44 
 
 Or you could just set the `Access-Control-Allow-Origin` to `"*"` and the `stream allowed origin` to `".*"` if you're real yolo about that kind of stuff.
 
