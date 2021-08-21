@@ -1,6 +1,7 @@
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {GotifySocket} from "./app/classes/gotify-socket";
+import {Message} from "./app/models/message.model";
 import {SocketService} from "./app/services/socket.service";
 
 const socket = new SocketService();
@@ -26,10 +27,16 @@ socket.loadConnections().then(() => {
   });
 
   socket.$.pipe(takeUntil(destroy$)).subscribe((gotify: GotifySocket) => {
-    gotify.GetMessageSubscription().subscribe((_) => {
+    gotify.GetMessageSubscription().subscribe((msg: Message) => {
       if (!isOpen) {
         unreadCount++;
         chrome.browserAction.setBadgeText({text: unreadCount.toString()});
+        chrome.notifications.create({
+          iconUrl: "assets/logo-48.png",
+          message: msg.message,
+          title: msg.title,
+          type: "basic",
+        });
       }
     });
   });
